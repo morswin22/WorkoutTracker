@@ -86,6 +86,8 @@ class Firebase {
             }
         })
     }
+
+    // Expand DB https://github.com/the-road-to-react-with-firebase/react-firebase-authentication/commit/00ae1c242fc8b9f72edf91b2a96a90ca18046442
 }
 
 export default Firebase;
