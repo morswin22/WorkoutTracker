@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { compose } from 'recompose';
 
 import { withFirebase } from '../Firebase';
-import { withAuthorization } from '../Session';
+import { withAuthorization, withEmailVerification } from '../Session';
 import * as ROLES from '../../constants/roles';
 
 class AdminPage extends Component {
@@ -34,7 +34,7 @@ class AdminPage extends Component {
     }
 
     componentWillUnmount() {
-        this.props.firebase.users.off();
+        this.props.firebase.users().off();
     }
 
     render () {
@@ -78,6 +78,7 @@ const condition = authUser =>
     authUser && authUser.roles.includes(ROLES.ADMIN);
 
 export default compose(
+    withEmailVerification,
     withAuthorization(condition),
     withFirebase
 )(AdminPage);

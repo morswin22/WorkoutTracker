@@ -61,6 +61,9 @@ class SignUpFormBase extends Component {
                     });
             })
             .then(() => {
+                return this.props.firebase.doSendEmailVerification();
+            })
+            .then(() => {
                 this.setState({ ...INITIAL_STATE });
                 this.props.history.push(ROUTES.HOME);
             })
@@ -68,7 +71,7 @@ class SignUpFormBase extends Component {
                 if (error.code === ERROR_CODE_ACCOUNT_EXISTS) {
                     error.message = ERROR_MSG_ACCOUNT_EXISTS;
                 }
-                
+
                 this.setState({ error })
             })
         
