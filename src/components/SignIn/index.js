@@ -1,20 +1,46 @@
 import React, {Component} from 'react';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import styled from 'styled-components';
 
 import { SignUpLink } from '../SignUp';
 import { PasswordForgetLink } from '../PasswordForget';
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
+import { Section, SignForm, SignProvider } from '../DOM';
+import GoogleImg from '../../assets/google.png';
+import FacebookImg from '../../assets/facebook.png';
+
+const ProvidersDiv = styled.div`
+    display: flex;
+    width: 250px;
+    margin: 0 auto;
+    justify-content: space-around;
+`;
+
+const LinksDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+`;
+
 const SignInPage = () => (
     <div>
-        <h1>SignIn</h1>
-        <SignInForm />
-        <SignInGoogle />
-        <SignInFacebook />
-        <PasswordForgetLink />
-        <SignUpLink />
+        <Section>
+            <SignInForm />
+        </Section>
+        
+        <ProvidersDiv>
+            <SignInGoogle />
+            <SignInFacebook />
+        </ProvidersDiv>
+        
+        <LinksDiv>
+            <PasswordForgetLink />
+            <SignUpLink />
+        </LinksDiv>
     </div>
 );
 
@@ -71,13 +97,15 @@ class SignInFormBase extends Component {
         const isInvalid = password === '' || email === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <SignForm onSubmit={this.onSubmit}>
+                <div class="header">Sign In</div>
+
                 <input
                     name="email"
                     value={email}
                     onChange={this.onChange}
                     type="text"
-                    placeholder="Email Address"
+                    placeholder="E-Mail"
                 />
                 <input
                     name="password"
@@ -87,11 +115,11 @@ class SignInFormBase extends Component {
                     placeholder="Password"
                 />
                 <button disabled={isInvalid} type="submit">
-                    Sign In
+                    CONFIRM
                 </button>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </SignForm>
         );
     }
 }
@@ -137,11 +165,12 @@ class SignInGoogleBase extends Component {
         const {error} = this.state;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <button type="submit">Sign In with Google</button>
+            <SignProvider onSubmit={this.onSubmit} src={GoogleImg}>
+                <button type="submit"></button>
+                <div>Google</div>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </SignProvider>
         )
     }
 }
@@ -187,11 +216,12 @@ class SignInFacebookBase extends Component {
         const {error} = this.state;
 
         return (
-            <form onSubmit={this.onSubmit}>
-                <button type="submit">Sign In with Facebook</button>
+            <SignProvider onSubmit={this.onSubmit} src={FacebookImg}>
+                <button type="submit"></button>
+                <div>Facebook</div>
 
                 {error && <p>{error.message}</p>}
-            </form>
+            </SignProvider>
         )
     }
 }
