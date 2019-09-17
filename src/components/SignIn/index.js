@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { withRouter } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
 import styled from 'styled-components';
 
@@ -98,7 +98,7 @@ class SignInFormBase extends Component {
 
         return (
             <SignForm onSubmit={this.onSubmit}>
-                <div class="header">Sign In</div>
+                <div className="header">Sign In</div>
 
                 <input
                     name="email"
@@ -118,7 +118,7 @@ class SignInFormBase extends Component {
                     CONFIRM
                 </button>
 
-                {error && <p>{error.message}</p>}
+                {error && <p className="error">{error.message}</p>}
             </SignForm>
         );
     }
@@ -241,6 +241,12 @@ const SignInFacebook = compose(
     withFirebase
 )(SignInFacebookBase);
 
+const SignInLink = () => (
+    <p>
+        Already have an account? <Link to={ROUTES.SIGN_IN}>Sign In</Link>
+    </p>
+)
+
 export default SignInPage;
 
-export { SignInForm, SignInGoogle, SignInFacebook };
+export { SignInForm, SignInGoogle, SignInFacebook, SignInLink };

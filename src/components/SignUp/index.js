@@ -1,15 +1,29 @@
 import React, {Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import { compose } from 'recompose';
+import styled from 'styled-components';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 import * as ROLES from '../../constants/roles';
 
+import { Section, SignForm } from '../DOM';
+import { SignInLink } from '../SignIn';
+
+const LinkDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
 const SignUpPage = () => (
     <div>
-        <h1>SignUp</h1>
-        <SignUpForm />
+        <Section>
+            <SignUpForm />
+        </Section>
+        <LinkDiv>
+            <SignInLink></SignInLink>
+        </LinkDiv>
     </div>
 );
 
@@ -103,7 +117,8 @@ class SignUpFormBase extends Component {
             username === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <SignForm onSubmit={this.onSubmit}>
+                <div className="header">Sign Up</div>
                 <input 
                     name="username"
                     value={username}
@@ -116,7 +131,7 @@ class SignUpFormBase extends Component {
                     value={email}
                     onChange={this.onChange}
                     type="text"
-                    placeholder="Email Address"
+                    placeholder="E-Mail Address"
                 />
                 <input 
                     name="passwordOne"
@@ -133,18 +148,18 @@ class SignUpFormBase extends Component {
                     placeholder="Confirm Password"
                 />
                 <label>
-                    Admin:
                     <input 
                         name="isAdmin"
                         type="checkbox"
                         checked={isAdmin}
                         onChange={this.onChangeCheckbox}
                     />
+                    Admin
                 </label>
                 <button disabled={isInvalid} type="submit">Sign Up</button>
 
-                {error && <p>{error.message}</p>}
-            </form>
+                {error && <p className="error">{error.message}</p>}
+            </SignForm>
         )
     }
 }

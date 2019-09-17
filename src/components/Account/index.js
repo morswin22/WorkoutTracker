@@ -10,6 +10,8 @@ import { withFirebase } from '../Firebase';
 import { PasswordForgetForm } from '../PasswordForget';
 import PasswordChangeForm from '../PasswordChange';
 
+import { Section } from '../DOM';
+
 const SIGN_IN_METHODS = [
     {
         id: 'password',
@@ -25,18 +27,49 @@ const SIGN_IN_METHODS = [
     },
 ]
 
-const AccountPage = () => (
-    <AuthUserContext.Consumer>
-        {authUser => (
-            <div>
-                <h1>Account: {authUser.email}</h1>
-                <PasswordForgetForm />
+class AccountPage extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = { passwordEnabled: false };
+    }
+
+    updatePassword = (isEnabled) => {
+        this.setState({ passwordEnabled: isEnabled });
+    }
+
+    render() {
+        const PasswordManagement = (this.state.passwordEnabled) ? (
+        <>
+            <Section>
                 <PasswordChangeForm />
-                <LoginManagement authUser={authUser} />
-            </div>
-        )}
-    </AuthUserContext.Consumer>
-);
+            </Section>
+
+            <Section>
+                <PasswordForgetForm />
+            </Section>
+        </>) : undefined;
+
+        return (
+            <AuthUserContext.Consumer>
+                {authUser => (
+                    <div>
+                        <Section>
+                            <h1>{authUser.username}'s Account</h1>
+        
+                        </Section>
+        
+                        <Section>
+                            <LoginManagement authUser={authUser} passwordEnabled={this.updatePassword} />
+                        </Section>
+        
+                        {PasswordManagement}
+                    </div>
+                )}
+            </AuthUserContext.Consumer>
+        );
+    }
+}
 
 class LoginManagementBase extends Component {
     constructor(props) {
@@ -57,6 +90,7 @@ class LoginManagementBase extends Component {
             .fetchSignInMethodsForEmail(this.props.authUser.email)
             .then(activeSignInMethods => {
                 this.setState({ activeSignInMethods, error: null });
+                this.props.passwordEnabled(activeSignInMethods.includes('password'));
             })
             .catch(error => this.setState({ error }));
     }

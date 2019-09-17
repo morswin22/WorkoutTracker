@@ -1,13 +1,26 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import styled from 'styled-components';
 
 import { withFirebase } from '../Firebase';
 import * as ROUTES from '../../constants/routes';
 
+import { Section, SignForm } from '../DOM';
+
+const LinkDiv = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`;
+
 const PasswordForgetPage = () => (
     <div>
-        <h1>PasswordForget</h1>
-        <PasswordForgetForm />
+        <Section>
+            <PasswordForgetForm />
+        </Section>
+        <LinkDiv>
+            <Link to={ROUTES.SIGN_IN}>Return</Link>
+        </LinkDiv>
     </div>
 );
 
@@ -48,20 +61,21 @@ class PasswordForgetFormBase extends Component {
         const isInvalid = email === '';
 
         return (
-            <form onSubmit={this.onSubmit}>
+            <SignForm onSubmit={this.onSubmit}>
+                <div className="header">Reset password</div>
                 <input
                     name="email"
                     value={email}
                     onChange={this.onChange}
                     type="text"
-                    placeholder="Email Address"
+                    placeholder="E-Mail Address"
                 />
                 <button disabled={isInvalid} type="submit">
                     Reset My Password
                 </button>
 
-                {error && <p>{error.message}</p>}
-            </form>
+                {error && <p className="error">{error.message}</p>}
+            </SignForm>
         );
     }
 }
