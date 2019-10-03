@@ -5,15 +5,7 @@ const SignForm = styled.form`
     margin: 0;
     padding-bottom: 1px;
 
-    div.header {
-        font-size: 22px;
-        display: flex;
-        height: 80px;
-        align-items: center;
-        justify-content: center;
-    }
-
-    input[type=text], input[type=password] {
+    input[type=text], input[type=password], input[type=number] {
         width: 260px;
         height: 40px;
         box-sizing: border-box;
@@ -98,4 +90,4 @@ const SignForm = styled.form`
     }
 `;
 
-export default SignForm;
+export default SignForm; // TODO: Change name to Form

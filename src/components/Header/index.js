@@ -1,8 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Navigation from '../Navigation';
-
 import LogoImg from '../../assets/Logo.png';
 
 const Container = styled.div`
